@@ -19,13 +19,16 @@ router.post(
   handleInputError,
   ProjectController.createProject
 );
+
 router.get("/", ProjectController.getAllProjects);
+
 router.get(
   "/:id",
   param("id").isMongoId().withMessage("Id inválido"),
   handleInputError,
   ProjectController.getProjectById
 );
+
 router.put(
   "/:id",
   param("id").isMongoId().withMessage("Id inválido"),
@@ -41,5 +44,12 @@ router.put(
   handleInputError,
   ProjectController.updateProject
 );
+
+router.delete(
+    "/:id",
+    param("id").isMongoId().withMessage("Id inválido"),
+    handleInputError,
+    ProjectController.deleteProject
+  );
 
 export default router;

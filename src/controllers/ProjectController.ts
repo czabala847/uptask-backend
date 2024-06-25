@@ -49,4 +49,16 @@ export class ProjectController {
       console.error(error);
     }
   };
+
+  static deleteProject = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+      const project = await Project.findById(id);
+      if (!project) return res.status(404).json({ error: "No project found" });
+      await project.deleteOne();
+      res.send("Project deleted");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 }
