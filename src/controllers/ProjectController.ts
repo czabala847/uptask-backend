@@ -15,7 +15,35 @@ export class ProjectController {
 
   static getAllProjects = async (req: Request, res: Response) => {
     try {
-      const project = await Project.find({});
+      const projects = await Project.find({});
+      res.json(projects);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  static getProjectById = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+      const project = await Project.findById(id);
+
+      if (!project) return res.status(404).json({ error: "No project found" });
+
+      res.json(project);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  static updateProject = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+      const project = await Project.findByIdAndUpdate(id, req.body);
+
+      if (!project) return res.status(404).json({ error: "No project found" });
+
+      await project.save();
+
       res.json(project);
     } catch (error) {
       console.error(error);
