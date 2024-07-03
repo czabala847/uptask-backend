@@ -57,7 +57,18 @@ router.delete(
 router.post(
   "/:projectId/tasks",
   validateProjectExists,
+  body("name").notEmpty().withMessage("El nombre de la tarea es obligatorio"),
+  body("description")
+    .notEmpty()
+    .withMessage("Las descripción de la tarea es obligatoria"),
+  handleInputError,
   TaskController.createProject
+);
+
+router.get(
+  "/:projectId/tasks",
+  validateProjectExists,
+  TaskController.getProjectTasks
 );
 
 export default router;
