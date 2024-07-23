@@ -1,13 +1,17 @@
 import type { Request, Response } from "express"
+import User from "../models/User"
+import { hasPassword } from "../utils/auth"
 
 export class AuthController {
   static createAccount = async (req: Request, res: Response) => {
-    console.log({ req, res });
-
     try {
-      res.send("Account created");
+      const { password } = req.body;
+      const user = new User(req.body);
+      user.password = await hasPassword(password);
+      await user.save();
+      res.send("User created");
     } catch (error) {
-      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
     }
   };
 }
