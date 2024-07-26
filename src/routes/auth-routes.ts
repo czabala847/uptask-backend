@@ -27,4 +27,12 @@ router.post(
   AuthController.confirmAccount
 );
 
+router.post(
+  "/login",
+  body("email").isEmail().withMessage("El email es obligatorio"),
+  body("password").notEmpty().withMessage("La contraseña es obligatoria"),
+  handleInputError,
+  AuthController.login
+);
+
 export default router;
