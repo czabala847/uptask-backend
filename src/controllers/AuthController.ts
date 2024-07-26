@@ -35,4 +35,23 @@ export class AuthController {
       res.status(500).json({ error: "Internal server error" });
     }
   };
+
+  static confirmAccount = async (req: Request, res: Response) => {
+    try {
+      const { token } = req.body;
+      const tokenExists = await Token.findOne({ token });
+
+      if (!tokenExists) {
+        return res.status(401).json({ error: "Token not valid" });
+      }
+
+      const user = await User.findById(tokenExists.user);
+      user.confirmed = true;
+
+      await Promise.allSettled([user.save(), tokenExists.deleteOne()]);
+      res.send("User confirmed");
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
 }
