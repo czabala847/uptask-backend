@@ -1,15 +1,17 @@
-import { Router } from "express";
-import { body, param } from "express-validator";
-import { ProjectController } from "../controllers/ProjectController";
-import { TaskController } from "../controllers/TaskController";
-import { validateProjectExists } from "../middleware/project";
-import { taskBelongToProject, validateTaskExists } from "../middleware/task";
-import { handleInputError } from "../middleware/validation";
+import { Router } from "express"
+import { body, param } from "express-validator"
+import { ProjectController } from "../controllers/ProjectController"
+import { TaskController } from "../controllers/TaskController"
+import { authenticate } from '../middleware/auth'
+import { validateProjectExists } from "../middleware/project"
+import { taskBelongToProject, validateTaskExists } from "../middleware/task"
+import { handleInputError } from "../middleware/validation"
 
 const router = Router();
 
 router.post(
   "/",
+  authenticate,
   body("projectName")
     .notEmpty()
     .withMessage("El nombre del proyecto es obligatorio"),

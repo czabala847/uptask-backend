@@ -1,5 +1,5 @@
-import type { NextFunction, Request, Response } from "express";
-import Project, { IProject } from "../models/Project";
+import type { NextFunction, Request, Response } from "express"
+import Project, { IProject } from "../models/Project"
 
 declare global {
   namespace Express {
